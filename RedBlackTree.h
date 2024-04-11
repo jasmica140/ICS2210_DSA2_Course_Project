@@ -25,6 +25,10 @@ private:
     RBNodePtr root;
     RBNodePtr TNULL;
 
+    vector<int> steps;
+    vector<int> rotations;
+    int height;
+
     // initializes the nodes with appropirate values
     // all the pointers are set to point to the null pointer
     void fixInsert(RBNodePtr k);
@@ -37,6 +41,7 @@ public:
         TNULL->left = nullptr;
         TNULL->right = nullptr;
         root = TNULL;
+        height = 0;
     }
 
     void leftRotate(RBNodePtr x);

@@ -21,31 +21,28 @@ int main() {
     knuthShuffle(integers1, 5000);
 
     //AVL Tree
-    AVLTree avlTree;
+    AVLTree avlTree1;
 
     for (int integer : integers1) {
-        avlTree.insert(avlTree.root, integer);
+        avlTree1.insert(avlTree1.root, integer);
     }
-
-    avlTree.printTree();
+    avlTree1.printTree();
 
     //Red Black Tree
-    RedBlackTree RBTree;
+    RedBlackTree RBTree1;
 
     for (int integer : integers1) {
-        RBTree.insert(integer);
+        RBTree1.insert(integer);
     }
-
-    RBTree.prettyPrint();
+    RBTree1.prettyPrint();
 
     //Skip List
-    skipList skipList;
+    skipList skipList1;
 
     for (int integer : integers1) {
-        skipList.insert(integer);
+        skipList1.insert(integer);
     }
-
-    skipList.display();
+    skipList1.display();
 
     //array of 1,000 random integers with duplicates
     int integers2[1000];
@@ -57,6 +54,14 @@ int main() {
         integer = dis(gen);
     }
 
+    //Skip List
+    skipList skipList2;
+
+    for (int integer : integers1) {
+        skipList2.insert(integer);
+    }
+    skipList2.display();
+    skipList2.displayStats();
 
     return 0;
 }

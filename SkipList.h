@@ -25,6 +25,10 @@ class skipList
 private:
     skipNode* head;
     int Level;
+    vector<int> steps;
+    vector<int> promotions;
+
+    double find_median(vector<int> v);
 
 public:
 
@@ -34,8 +38,8 @@ public:
     }
 
     void insert(int data);  // To insert the value
-    void display();         // Function to display a skip List
-
+    void display();         // To display a skip List
+    void displayStats();    // To display a skip List stats
 };
 
 
