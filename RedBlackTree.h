@@ -24,15 +24,17 @@ class RedBlackTree {
 private:
     RBNodePtr root;
     RBNodePtr TNULL;
-
     vector<int> steps;
     vector<int> rotations;
-    int height;
 
     // initializes the nodes with appropirate values
     // all the pointers are set to point to the null pointer
-    void fixInsert(RBNodePtr k);
+    void fixInsert(RBNodePtr k, int& numSteps, int& numRotations);
     void printHelper(RBNodePtr root, string indent, bool last);
+    static double find_median(vector<int> v);
+    int getHeight(RBNode *node);
+    int getLeaves(RBNode *node);
+
 
 public:
     RedBlackTree() {
@@ -41,13 +43,15 @@ public:
         TNULL->left = nullptr;
         TNULL->right = nullptr;
         root = TNULL;
-        height = 0;
     }
 
     void leftRotate(RBNodePtr x);
     void rightRotate(RBNodePtr x);
     void insert(int key);
     void prettyPrint();
+    void displayStats();
+
+
 };
 
 #endif //ICS2210_DSA2_COURSE_PROJECT_REDBLACKTREE_H

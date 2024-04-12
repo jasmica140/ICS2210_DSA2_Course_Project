@@ -29,7 +29,7 @@ void skipList::insert(int data)
 
     skipNode* current = head; // pointer to the head to traverse through the skip list
 
-    vector<skipNode*> Update(Level + 1, nullptr); // To store the update node at eah level
+    vector<skipNode*> Update(Level + 1, nullptr); // To store the update node at each level
 
     // Loop over the levels upto which we want the value to be inserted
     for (int i = Level; i >= 0; i--)

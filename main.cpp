@@ -26,7 +26,7 @@ int main() {
     for (int integer : integers1) {
         avlTree1.insert(avlTree1.root, integer);
     }
-    avlTree1.printTree();
+    avlTree1.prettyPrint();
 
     //Red Black Tree
     RedBlackTree RBTree1;
@@ -54,14 +54,35 @@ int main() {
         integer = dis(gen);
     }
 
+    //AVL Tree
+    AVLTree avlTree2;
+
+    for (int integer : integers2) {
+        avlTree2.insert(avlTree2.root, integer);
+    }
+    avlTree2.prettyPrint();
+    avlTree2.displayStats();
+
+    //Red Black Tree
+    RedBlackTree RBTree2;
+
+    for (int integer : integers2) {
+        RBTree2.insert(integer);
+    }
+
+    RBTree2.prettyPrint();
+    RBTree2.displayStats();
+
     //Skip List
     skipList skipList2;
 
-    for (int integer : integers1) {
+    for (int integer : integers2) {
         skipList2.insert(integer);
     }
     skipList2.display();
     skipList2.displayStats();
+
+//    int integers1[] = {37, 3, 28, 31, 37, 1, 14, 30, 32, 18, 42, 11, 3, 34, 32, 21, 5, 16, 48, 24};
 
     return 0;
 }

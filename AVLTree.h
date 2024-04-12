@@ -1,6 +1,10 @@
 #ifndef ICS2210_DSA2_COURSE_PROJECT_AVLTREE_H
 #define ICS2210_DSA2_COURSE_PROJECT_AVLTREE_H
 
+#include <string>
+#include <vector>
+using namespace std;
+
 class Node {
 public:
     int key{};
@@ -14,11 +18,17 @@ public:
 class AVLTree {
 
 private:
+    vector<int> steps;
+    vector<int> rotations;
 
     static int height(Node *N);
     static Node *rightRotate(Node *y);
     static Node *leftRotate(Node *x);
+    Node* insertHelper(Node* node, int key);
     void preOrder(Node *node, int level, bool isLeft);
+    void printHelper(Node *node, string indent, bool last);
+    int getLeaves(Node *node);
+    double find_median(vector<int> v);
 
 public:
     Node *root;
@@ -26,7 +36,8 @@ public:
     AVLTree() : root(nullptr) {}
 
     Node* insert(Node* node, int key);
-    void printTree();
+    void prettyPrint();
+    void displayStats();
 };
 
 
