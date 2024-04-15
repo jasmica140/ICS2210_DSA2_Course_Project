@@ -1,57 +1,29 @@
 #ifndef ICS2210_DSA2_COURSE_PROJECT_REDBLACKTREE_H
 #define ICS2210_DSA2_COURSE_PROJECT_REDBLACKTREE_H
-// Red Black Tree implementation in C++
-// Author: Algorithm Tutor
-// Tutorial URL: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
 
 #include <iostream>
+#include "Tree.h"
 
 using namespace std;
 
-// data structure that represents a node in the tree
-struct RBNode {
-    int data; // holds the key
-    RBNode *parent; // pointer to the parent
-    RBNode *left; // pointer to left child
-    RBNode *right; // pointer to right child
-    int color; // 1 -> Red, 0 -> Black
-};
-
-typedef RBNode *RBNodePtr;
-
-// class RedBlackTree implements the operations in Red Black Tree
 class RedBlackTree {
 private:
-    RBNodePtr root;
-    RBNodePtr TNULL;
-    vector<int> steps;
-    vector<int> rotations;
+    Tree *RBTree;
+    Node *root;
 
-    // initializes the nodes with appropirate values
-    // all the pointers are set to point to the null pointer
-    void fixInsert(RBNodePtr k, int& numSteps, int& numRotations);
-    void printHelper(RBNodePtr root, string indent, bool last);
-    static double find_median(vector<int> v);
-    int getHeight(RBNode *node);
-    int getLeaves(RBNode *node);
-
+    void balanceTree(Node *k, int& numRotations);
+    void leftRotate(Node *x);
+    void rightRotate(Node *x);
 
 public:
     RedBlackTree() {
-        TNULL = new RBNode;
-        TNULL->color = 0;
-        TNULL->left = nullptr;
-        TNULL->right = nullptr;
-        root = TNULL;
+        RBTree = new Tree();
+        root = RBTree->leaf;
     }
 
-    void leftRotate(RBNodePtr x);
-    void rightRotate(RBNodePtr x);
     void insert(int key);
     void prettyPrint();
     void displayStats();
-
-
 };
 
 #endif //ICS2210_DSA2_COURSE_PROJECT_REDBLACKTREE_H

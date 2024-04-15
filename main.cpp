@@ -14,7 +14,7 @@ int main() {
     int integers1[5000];
 
     for (int i = 0; i < 5000; i++) {
-        integers1[i] = i;
+        integers1[i] = i+1;
     }
 
     //Knuth Shuffle
@@ -26,7 +26,7 @@ int main() {
     for (int integer : integers1) {
         avlTree1.insert(avlTree1.root, integer);
     }
-    avlTree1.prettyPrint();
+//    avlTree1.prettyPrint();
 
     //Red Black Tree
     RedBlackTree RBTree1;
@@ -34,7 +34,7 @@ int main() {
     for (int integer : integers1) {
         RBTree1.insert(integer);
     }
-    RBTree1.prettyPrint();
+//    RBTree1.prettyPrint();
 
     //Skip List
     skipList skipList1;
@@ -42,7 +42,7 @@ int main() {
     for (int integer : integers1) {
         skipList1.insert(integer);
     }
-    skipList1.display();
+//    skipList1.display();
 
     //array of 1,000 random integers with duplicates
     int integers2[1000];
@@ -60,7 +60,7 @@ int main() {
     for (int integer : integers2) {
         avlTree2.insert(avlTree2.root, integer);
     }
-    avlTree2.prettyPrint();
+//    avlTree2.prettyPrint();
     avlTree2.displayStats();
 
     //Red Black Tree
@@ -69,8 +69,7 @@ int main() {
     for (int integer : integers2) {
         RBTree2.insert(integer);
     }
-
-    RBTree2.prettyPrint();
+//    RBTree2.prettyPrint();
     RBTree2.displayStats();
 
     //Skip List
@@ -79,10 +78,40 @@ int main() {
     for (int integer : integers2) {
         skipList2.insert(integer);
     }
-    skipList2.display();
+//    skipList2.display();
     skipList2.displayStats();
 
-//    int integers1[] = {37, 3, 28, 31, 37, 1, 14, 30, 32, 18, 42, 11, 3, 34, 32, 21, 5, 16, 48, 24};
+//    int integers2[] = {37, 3, 28, 31, 37, 1, 14, 30, 32, 18, 42, 11, 3, 34, 32, 21, 5, 16, 48, 24};
+//
+//        //AVL Tree
+//    AVLTree avlTree2;
+//
+//    for (int integer : integers2) {
+//        avlTree2.insert(avlTree2.root, integer);
+//    }
+//    avlTree2.prettyPrint();
+//    avlTree2.displayStats();
+//
+//    //Red Black Tree
+//    RedBlackTree RBTree2;
+//
+//    for (int integer : integers2) {
+//        RBTree2.insert(integer);
+//    }
+//
+//    RBTree2.prettyPrint();
+//    RBTree2.displayStats();
+
+
+//    int integers2[] = {37, 31, 32, 42, 21, 3, 9, 25, 19, 30, 43, 9, 50, 40, 3, 35, 50, 43, 28, 5};
+//    //Skip List
+//    skipList skipList2;
+//
+//    for (int integer : integers2) {
+//        skipList2.insert(integer);
+//    }
+//    skipList2.display();
+//    skipList2.displayStats();
 
     return 0;
 }

@@ -2,85 +2,64 @@
 
 #include <algorithm>
 #include <iostream>
-#include <numeric>
 
 using namespace std;
 
-int AVLTree::height(Node *N)
-{
-    if (N == nullptr)
-        return 0;
-    return N->height;
-}
+Node* AVLTree::rightRotate(Node *y) {
 
-Node *AVLTree::rightRotate(Node *y) {
-    Node *x = y->left;
-    Node *T2 = x->right;
+    Node *x = y->left;    // set x as left child of y
+    Node *z = x->right;   // set z as right child of x
 
-    // Perform rotation
-    x->right = y;
-    y->left = T2;
+    x->right = y;    // make y right child of x
+    y->left = z;     // make z left child of y
 
-    // Update heights
-    y->height = max(height(y->left),
-                    height(y->right)) + 1;
-    x->height = max(height(x->left),
-                    height(x->right)) + 1;
-
-    // Return new root
+    // return new root
     return x;
 }
 
-Node *AVLTree::leftRotate(Node *x) {
-    Node *y = x->right;
-    Node *T2 = y->left;
+Node* AVLTree::leftRotate(Node *x) {
 
-    // Perform rotation
-    y->left = x;
-    x->right = T2;
+    Node *y = x->right;    // set y as right child of x
+    Node *z = y->left;     // set z as left child of y
 
-    // Update heights
-    x->height = max(height(x->left),
-                    height(x->right)) + 1;
-    y->height = max(height(y->left),
-                    height(y->right)) + 1;
+    y->left = x;     // make y left child of x
+    x->right = z;    // make z right child of x
 
-    // Return new root
+    // return new root
     return y;
 }
 
-Node *AVLTree::insertHelper(Node* node, int key) {
+Node* AVLTree::insertHelper(Node* node, int key) {
 
     if (node == nullptr){
         root = new Node(key);
         return root;
     }
 
-    int lastSteps = steps.size() -1 ;
-    int lastRotations = rotations.size() - 1;
+    // keep track of number of steps and rotations performed
+    int lastSteps = avlTree->steps.size() -1 ;
+    int lastRotations = avlTree->rotations.size() - 1;
 
-    /* 1. Perform the normal BST insertion */
+    // if key < current node's key, go to left subtree
     if (key < node->key){
-        steps[lastSteps]++;
+        avlTree->steps[lastSteps]++;
         node->left = insertHelper(node->left, key);
+
+    // if key > current node's key, go to right subtree
     } else if (key > node->key){
-        steps[lastSteps]++;
+        avlTree->steps[lastSteps]++;
         node->right = insertHelper(node->right, key);
-    } else { // Equal keys are not allowed in BST
+
+    // if key = current node's key, return current node
+    } else {
         root = node;
         return root;
     }
 
-    /* 2. Update height of this ancestor node */
-    node->height = 1 + max(height(node->left),
-                           height(node->right));
+    // balance factor of current node
+    int balance = avlTree->getHeight(node->left,avl) - avlTree->getHeight(node->right, avl);
 
-    /* 3. Get the balance factor of this ancestor
-    node to check whether this node became
-    unbalanced */
-    int balance = height(node->left) - height(node->right);
-
-
+    // if balance factor > 1, perform right rotation
     if (balance > 1){
         if (key < node->left->key){     // Left Left Case
             root = rightRotate(node);
@@ -89,8 +68,9 @@ Node *AVLTree::insertHelper(Node* node, int key) {
             node->left = leftRotate(node->left);
             root = rightRotate(node);
         }
-        rotations[lastRotations]++;
+        avlTree->rotations[lastRotations]++;
 
+    // if balance factor < -1, perform left rotation
     } else if (balance < -1){
         if (key > node->right->key){ // Right Right Case
             root = leftRotate(node);
@@ -99,8 +79,9 @@ Node *AVLTree::insertHelper(Node* node, int key) {
             node->right = rightRotate(node->right);
             root = leftRotate(node);
         }
-        rotations[lastRotations]++;
+        avlTree->rotations[lastRotations]++;
 
+    // otherwise return current node
     } else {
         root = node;
     }
@@ -109,124 +90,22 @@ Node *AVLTree::insertHelper(Node* node, int key) {
 }
 
 Node *AVLTree::insert(Node* node, int key) {
-    steps.push_back(0);
-    rotations.push_back(0);
+    avlTree->steps.push_back(0);
+    avlTree->rotations.push_back(0);
     insertHelper(node, key);
 }
 
-void AVLTree::preOrder(Node *node, int level, bool isLeft) {
-    if (node == nullptr) {
-        return;
-    }
-
-    if (level == 1) {
-        if (isLeft) {
-            cout << " ";
-        }
-        cout << node->key << " ";
-    } else if (level > 1) {
-        preOrder(node->left, level - 1, true);
-        preOrder(node->right, level - 1, false);
-    }
-}
-
-void AVLTree::printHelper(Node *node, string indent, bool last) {
-    // print the tree structure on the screen
-    if (node != nullptr) {
-        cout<<indent;
-        if (last) {
-            cout<<"R----";
-            indent += "     ";
-        } else {
-            cout<<"L----";
-            indent += "|    ";
-        }
-
-        cout<<node->key<<endl;
-        printHelper(node->left, indent, false);
-        printHelper(node->right, indent, true);
-    }
-    // cout<<root->left->data<<endl;
-}
-
 // print the tree structure on the screen
-void AVLTree::prettyPrint() {
+void AVLTree::prettyPrint() const {
     if (root) {
-        printHelper(this->root, "", true);
+        avlTree->printHelper(root, "", true, avl);
     }
     cout << endl;
 }
 
-
-double AVLTree::find_median(vector<int> v){
-    if (v.empty())
-        return std::numeric_limits<double>::signaling_NaN();
-
-    const auto alpha = v.begin();
-    const auto omega = v.end();
-
-    // Find the two middle positions (they will be the same if size is odd)
-    const auto i1 = alpha + (v.size()-1) / 2;
-    const auto i2 = alpha + v.size() / 2;
-
-    // Partial sort to place the correct elements at those indexes (it's okay to modify the vector,
-    // as we've been given a copy; otherwise, we could use std::partial_sort_copy to populate a
-    // temporary vector).
-    std::nth_element(alpha, i1, omega);
-    std::nth_element(i1, i2, omega);
-
-    return 0.5 * (*i1 + *i2);
-}
-
-int AVLTree::getLeaves(Node *node){
-    if(node == nullptr){
-        return 0;
+// display tree statistics
+void AVLTree::displayStats() const{
+    if (root) {
+        avlTree->displayStatsHelper(root, avl);
     }
-
-    if(node->left == nullptr && node->right == nullptr){ //if node is a leaf
-        return 1;
-    } else {
-        return getLeaves(node->left) + getLeaves(node->right);
-    }
-}
-
-void AVLTree::displayStats() {
-
-    cout << "steps: ";
-    for (int step : steps) {
-        cout << step << " ";
-    }
-    cout << endl;
-
-    cout << "Minimum: " << *min_element(steps.begin(), steps.end()) << endl;
-    cout << "Maximum: " << *max_element(steps.begin(), steps.end())<< endl;
-    double meanSteps = accumulate(steps.begin(), steps.end(), 0.0) / steps.size();
-    cout << "Mean: " << meanSteps << endl;
-    double sqSumSteps = inner_product(steps.begin(), steps.end(), steps.begin(), 0.0);
-    double stdevSteps = sqrt(sqSumSteps / steps.size() - meanSteps * meanSteps);
-    cout << "Standard Deviation: " << stdevSteps << endl;
-    cout << "Median: " << find_median(steps) << endl;
-    cout << endl;
-
-    cout << "rotations: ";
-    for (int rot : rotations) {
-        cout << rot << " ";
-    }
-    cout << endl;
-
-    cout << "Minimum: " <<  *min_element(rotations.begin(), rotations.end()) << endl;
-    cout << "Maximum: " <<  *max_element(rotations.begin(), rotations.end()) << endl;
-    double meanRotations = accumulate(rotations.begin(), rotations.end(), 0.0) / rotations.size();
-    cout << "Mean: " << meanRotations << endl;
-    double sqSumRotations = inner_product(rotations.begin(), rotations.end(), rotations.begin(), 0.0);
-    double stdevRotations = sqrt(sqSumRotations / rotations.size() - meanRotations * meanRotations);
-    cout << "Standard Deviation: " << stdevRotations << endl;
-    cout << "Median: " << find_median(rotations) << endl;
-    cout << endl;
-
-    cout << "Height: " << root->height << endl;
-    cout << endl;
-
-    cout << "Leaves: " << getLeaves(root) << endl;
-    cout << endl;
 }
