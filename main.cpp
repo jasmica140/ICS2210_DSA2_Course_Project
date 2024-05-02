@@ -81,38 +81,6 @@ int main() {
 //    skipList2.display();
     skipList2.displayStats();
 
-//    int integers2[] = {37, 3, 28, 31, 37, 1, 14, 30, 32, 18, 42, 11, 3, 34, 32, 21, 5, 16, 48, 24};
-//
-//        //AVL Tree
-//    AVLTree avlTree2;
-//
-//    for (int integer : integers2) {
-//        avlTree2.insert(avlTree2.root, integer);
-//    }
-//    avlTree2.prettyPrint();
-//    avlTree2.displayStats();
-//
-//    //Red Black Tree
-//    RedBlackTree RBTree2;
-//
-//    for (int integer : integers2) {
-//        RBTree2.insert(integer);
-//    }
-//
-//    RBTree2.prettyPrint();
-//    RBTree2.displayStats();
-
-
-//    int integers2[] = {37, 31, 32, 42, 21, 3, 9, 25, 19, 30, 43, 9, 50, 40, 3, 35, 50, 43, 28, 5};
-//    //Skip List
-//    skipList skipList2;
-//
-//    for (int integer : integers2) {
-//        skipList2.insert(integer);
-//    }
-//    skipList2.display();
-//    skipList2.displayStats();
-
     return 0;
 }
 
